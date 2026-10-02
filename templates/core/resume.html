@@ -1,0 +1,326 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ profile.name }} | Recruiter CV</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --ink: #11181d;
+            --muted: #5e6b70;
+            --line: #d9dfda;
+            --lime: #d7fa4a;
+            --orange: #ff6b35;
+            --paper: #f5f6ee;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--paper);
+            font-family: "Space Grotesk", sans-serif;
+        }
+
+        .resume-toolbar {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 28px 28px 0;
+        }
+
+        button,
+        a {
+            color: inherit;
+        }
+
+        button {
+            border: 0;
+            padding: 12px 18px;
+            background: var(--lime);
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .resume-page {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 58px;
+            background: white;
+            box-shadow: 0 20px 80px rgba(17, 24, 29, 0.1);
+        }
+
+        .resume-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            padding-bottom: 36px;
+            border-bottom: 3px solid var(--ink);
+        }
+
+        .resume-header h1 {
+            margin: 0;
+            font-size: clamp(42px, 8vw, 86px);
+            line-height: 0.9;
+            letter-spacing: -0.08em;
+            text-transform: uppercase;
+        }
+
+        .resume-header h1 span {
+            color: var(--orange);
+        }
+
+        .resume-role {
+            margin: 20px 0 0;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .resume-contact {
+            display: grid;
+            gap: 8px;
+            align-content: start;
+            font-family: "DM Mono", monospace;
+            font-size: 12px;
+            text-align: right;
+        }
+
+        .resume-contact a {
+            text-decoration: none;
+        }
+
+        .resume-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 0.8fr;
+            gap: 60px;
+            padding-top: 42px;
+        }
+
+        .resume-section {
+            margin-bottom: 42px;
+        }
+
+        .resume-section h2 {
+            margin: 0 0 18px;
+            color: var(--orange);
+            font-family: "DM Mono", monospace;
+            font-size: 13px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .resume-section p {
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .project {
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .project:last-child {
+            border-bottom: 0;
+        }
+
+        .project h3 {
+            margin: 0 0 6px;
+            font-size: 19px;
+        }
+
+        .project p {
+            margin: 0 0 8px;
+            font-size: 14px;
+        }
+
+        .project a {
+            color: var(--orange);
+            font-family: "DM Mono", monospace;
+            font-size: 11px;
+            word-break: break-word;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-list span {
+            padding: 8px 10px;
+            background: #edf2e6;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .resume-footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding-top: 28px;
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            font-family: "DM Mono", monospace;
+            font-size: 11px;
+        }
+
+        @media (max-width: 700px) {
+            .resume-toolbar {
+                padding: 18px;
+            }
+
+            .resume-page {
+                margin: 0;
+                padding: 28px 20px;
+            }
+
+            .resume-header,
+            .resume-grid {
+                display: block;
+            }
+
+            .resume-contact {
+                margin-top: 30px;
+                text-align: left;
+            }
+
+            .resume-footer {
+                display: block;
+            }
+
+            .resume-footer span {
+                display: block;
+                margin-bottom: 8px;
+            }
+        }
+
+        @media print {
+            .resume-toolbar {
+                display: none;
+            }
+
+            .resume-page {
+                margin: 0;
+                box-shadow: none;
+            }
+
+            body {
+                background: white;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-toolbar">
+        <a href="{% url 'core:home' %}">← Portfolio</a>
+        <button type="button" onclick="window.print()">Print / Save PDF</button>
+    </div>
+
+    <main class="resume-page">
+        <header class="resume-header">
+            <div>
+                <h1>Samyog<br><span>Panthi</span></h1>
+                <p class="resume-role">{{ profile.role }}</p>
+            </div>
+
+            <div class="resume-contact">
+                <a href="mailto:{{ profile.email }}">{{ profile.email }}</a>
+                <a href="tel:{{ profile.phone }}">{{ profile.phone }}</a>
+                <span>{{ profile.location }}</span>
+                <a href="{{ profile.github }}">{{ profile.github }}</a>
+            </div>
+        </header>
+
+        <div class="resume-grid">
+            <div>
+                <section class="resume-section">
+                    <h2>Profile</h2>
+                    <p>
+                        BEIT student and Python/Django backend developer focused on
+                        building practical web applications. Experienced through personal
+                        projects with Django project structure, models, views, templates,
+                        ORM, SQLite, authentication, routing, and Flask development.
+                    </p>
+                    <p>
+                        Currently seeking an internship, junior backend role, or
+                        entry-level Python/Django opportunity.
+                    </p>
+                </section>
+
+                <section class="resume-section">
+                    <h2>Projects</h2>
+
+                    {% for project in projects %}
+                        <article class="project">
+                            <h3>{{ project.title }}</h3>
+                            <p>{{ project.description }}</p>
+                            <a href="{{ project.url }}">{{ project.url }}</a>
+                        </article>
+                    {% endfor %}
+                </section>
+
+                <section class="resume-section">
+                    <h2>Experience</h2>
+                    <p>
+                        No formal company experience yet. Developed skills through
+                        personal projects, hands-on practice, debugging, and continuous
+                        learning. Ready to contribute under experienced mentorship and
+                        take professional responsibility seriously.
+                    </p>
+                </section>
+            </div>
+
+            <aside>
+                <section class="resume-section">
+                    <h2>Education</h2>
+                    <p>
+                        Bachelor of Engineering in Information Technology
+                    </p>
+                    <p>
+                        Nepal College of Information Technology<br>
+                        Lalitpur, Balkumari, Nepal
+                    </p>
+                </section>
+
+                <section class="resume-section">
+                    <h2>Skills</h2>
+                    <div class="skill-list">
+                        {% for skill in skills %}
+                            <span>{{ skill.name }}</span>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                <section class="resume-section">
+                    <h2>Languages</h2>
+                    <p>Nepali - Fluent</p>
+                    <p>English - Advanced</p>
+                    <p>Hindi - Fluent</p>
+                </section>
+
+                <section class="resume-section">
+                    <h2>Interests</h2>
+                    <p>Adventure, coding, riding, exploring, communication, learning.</p>
+                </section>
+            </aside>
+        </div>
+
+        <footer class="resume-footer">
+            <span>Available for internships and junior roles</span>
+            <span>© {{ current_year }} Samyog Panthi</span>
+        </footer>
+    </main>
+</body>
+</html>
