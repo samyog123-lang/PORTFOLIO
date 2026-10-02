@@ -14,7 +14,7 @@ ALLOWED_HOSTS = [
     host.strip()
     for host in os.getenv(
         "DJANGO_ALLOWED_HOSTS",
-        "127.0.0.1,localhost",
+        "127.0.0.1,localhost,portfolio-7z47.onrender.com",
     ).split(",")
     if host.strip()
 ]
@@ -83,3 +83,6 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+CSRF_TRUSTED_ORIGINS = [
+    "https://portfolio-7z47.onrender.com",
+]
