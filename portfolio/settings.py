@@ -8,13 +8,13 @@ SECRET_KEY = os.getenv(
     "django-development-secret-key-change-this",
 )
 
-DEBUG = os.getenv("DJANGO_DEBUG", "1") == "1"
+DEBUG = os.getenv("DJANGO_DEBUG", "0") == "1"
 
 ALLOWED_HOSTS = [
     host.strip()
     for host in os.getenv(
         "DJANGO_ALLOWED_HOSTS",
-        "127.0.0.1,localhost",
+        "127.0.0.1,localhost,portfolio-7z47.onrender.com",
     ).split(",")
     if host.strip()
 ]
@@ -44,7 +44,9 @@ ROOT_URLCONF = "portfolio.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
+        "DIRS": [
+            BASE_DIR / "templates",
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -74,7 +76,9 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "media/"
@@ -83,3 +87,13 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://portfolio-7z47.onrender.com",
+]
+
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
